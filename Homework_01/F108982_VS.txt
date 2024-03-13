@@ -1,0 +1,373 @@
+// 01
+import java.io.*;
+import java.util.Scanner;
+
+class Result {
+    public static int countNumbers(int bottom, int top, int difference) {
+        int result = 0;
+
+        for (int i = bottom; i <= top; i++) {
+            if (checkNumber(i, difference)) {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    private static boolean checkNumber(int number, int difference) {
+        int shiftedNumber = number;
+        int firstDigit = 0;
+
+        int degree = (int)Math.log10(number);
+        int modPow = (int)Math.pow(10, degree);
+
+        if (number >= 9) {
+            firstDigit = (number / (modPow));
+            shiftedNumber = (shiftedNumber % modPow) * 10 + firstDigit;
+        }
+
+        return shiftedNumber - difference > number;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+//        Scanner scanner = new Scanner(System.in);
+//        int bottom = Integer.parseInt(scanner.nextLine());
+//        int top = Integer.parseInt(scanner.nextLine());
+//        int difference = Integer.parseInt(scanner.nextLine());
+//
+//        int result = Result.countNumbers(bottom, top, difference);
+//        System.out.println(result);
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int bottom = Integer.parseInt(bufferedReader.readLine().trim());
+        int top = Integer.parseInt(bufferedReader.readLine().trim());
+        int difference = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int result = 0;
+
+        if (bottom >= 0 && top >= 0) {
+            result = Result.countNumbers(bottom, top, difference);
+        }
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+// 02
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class Result {
+
+    /*
+     * Complete the 'sumOfNumbers' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts INTEGER size as parameter.
+     */
+
+    public static int sumOfNumbers(int size) {
+        int sum = 0;
+
+        if (size < 1 || size > 9) {
+            return 0;
+        }
+
+        for (int i = 1; i < size; i++) {
+            for (int j = i; j <= size; j++) {
+                sum = sum + (j * 2);
+            }
+        }
+
+        sum = sum * 2;
+        sum = sum + (size * 2);
+
+        return sum;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+//        System.out.println(Result.sumOfNumbers(Integer.parseInt(new Scanner(System.in).nextLine())));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int size = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int result = Result.sumOfNumbers(size);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+// 03
+import java.io.*;
+import java.time.LocalDate;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.time.Period;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+
+class Manager {
+    String name;
+    LocalDate hireDate;
+
+    public Manager(String name) {
+        setName(name);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHireDate() {
+        return String.format("%02d-%02d-%02d", hireDate.getYear(), hireDate.getMonthValue(), hireDate.getDayOfMonth());
+    }
+
+    public void setHireDate(int year, int month, int day) {
+        LocalDate hireDate = LocalDate.of(year, month, day);
+
+        if (hireDate.isAfter(LocalDate.now())) {
+            this.hireDate = LocalDate.of(2020, 1, 1);
+        } else {
+            this.hireDate = hireDate;
+        }
+    }
+
+    public int numberOfYearsInCompanyTill(int year, int month, int day) {
+        LocalDate date = LocalDate.of(year, month, day);
+
+        int result = Period.between(hireDate, date).getYears();
+
+        return result;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+//        Scanner scanner = new Scanner(System.in);
+//
+//        String nameTest = scanner.nextLine();
+//
+//        int hYear = Integer.parseInt(scanner.nextLine());
+//        int hMonth = Integer.parseInt(scanner.nextLine());
+//        int hDay = Integer.parseInt(scanner.nextLine());
+//
+//        int cYear = Integer.parseInt(scanner.nextLine());
+//        int cMonth = Integer.parseInt(scanner.nextLine());
+//        int cDay = Integer.parseInt(scanner.nextLine());
+//
+//        Manager manager = new Manager(nameTest);
+//        manager.setHireDate(hYear, hMonth, hDay);
+//
+//        System.out.println(manager.getHireDate());
+//        System.out.println(manager.numberOfYearsInCompanyTill(cYear, cMonth, cDay));
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        String name = bufferedReader.readLine();
+
+        int hiringYear = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int hiringMonth = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int hiringDay = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int currentYear = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int currentMonth = Integer.parseInt(bufferedReader.readLine().trim());
+
+        int currentDay = Integer.parseInt(bufferedReader.readLine().trim());
+
+        Manager manager = new Manager(name);
+        manager.setHireDate(hiringYear, hiringMonth, hiringDay);
+
+        System.out.println(manager.getHireDate());
+        System.out.println(manager.numberOfYearsInCompanyTill(currentYear, currentMonth, currentDay));
+
+        // Create an object of type Manager. Use one parameter constructor with argument name: Manager(name)
+
+        // Call the set method to set the hiring date of Ivan. Pass year, month, and day as parameters: setHiringDate(LocalDate.of(hiringYear, hiringMonth, hiringDay))
+
+        // Print on the console the result of getting the hiring date
+
+        // Print on the console the result of calling numberOfYearsInCompanyTill() method. The method has to be called with a parameter of type LocalDate using currentYear, currentMonth, currentDay: numberOfYearsInCompanyTill(LocalDate.of(currentYear, currentMonth, currentDay))
+
+        bufferedReader.close();
+    }
+}
+
+// 04
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+
+class Studio {
+    private long id;
+    private BigDecimal hourlyPrice;
+    private int maxHours;
+    private int hours;
+    private static BigDecimal minPrice;
+    private static BigDecimal euro;
+
+    public Studio(long id, int maxHours) {
+        setId(id);
+        setMaxHours(maxHours);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public BigDecimal getHourlyPrice() {
+        return hourlyPrice;
+    }
+
+    public int getMaxHours() {
+        return maxHours;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public static BigDecimal getMinPrice() {
+        return minPrice;
+    }
+
+    public static BigDecimal getEuro() {
+        return euro;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setMaxHours(int maxHours) {
+        if (maxHours < 0 || maxHours > 24) {
+            this.maxHours = 24;
+        } else {
+            this.maxHours = maxHours;
+        }
+    }
+
+    public static void setMinPrice(BigDecimal minPrice) {
+        if (minPrice.doubleValue() < 0) {
+            Studio.minPrice = BigDecimal.valueOf(0);
+            return;
+        }
+
+        Studio.minPrice = minPrice;
+    }
+
+    public void setHourlyPrice(BigDecimal hourlyPrice) {
+        if (hourlyPrice.doubleValue() < Studio.minPrice.doubleValue()) {
+            this.hourlyPrice = Studio.minPrice;
+            return;
+        }
+
+        this.hourlyPrice = hourlyPrice;
+    }
+
+    public void setHours(int hours) {
+        if (hours > maxHours) {
+            this.hours = maxHours;
+        } else if (hours < 0 || hours > 24) {
+            this.hours = 24;
+        } else {
+            this.hours = hours;
+        }
+    }
+
+    public static void setEuro(BigDecimal euro) {
+        Studio.euro = euro;
+    }
+
+    public BigDecimal calculateRevenueEuro() {
+        return calculateRevenueLv().multiply(euro);
+    }
+
+    public BigDecimal calculateRevenueLv() {
+        return hourlyPrice.multiply(BigDecimal.valueOf(hours));
+    }
+
+    public long compareTo(Studio other) {
+        return this.hourlyPrice.doubleValue() > other.hourlyPrice.doubleValue() ? this.id : other.id;
+    }
+
+    public boolean compareRevenue(Studio other) {
+        return this.calculateRevenueLv().doubleValue() > other.calculateRevenueLv().doubleValue();
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        long id = Long.parseLong(bufferedReader.readLine().trim());
+        int maxWorkingHours = Integer.parseInt(bufferedReader.readLine().trim());
+        double minPricePerHour = Double.parseDouble(bufferedReader.readLine().trim());
+        double currencyEuro = Double.parseDouble(bufferedReader.readLine().trim());
+        double pricePerHour = Double.parseDouble(bufferedReader.readLine().trim());
+        int workedHours = Integer.parseInt(bufferedReader.readLine().trim());
+
+        Studio.setMinPrice(BigDecimal.valueOf(minPricePerHour));
+        Studio.setEuro(BigDecimal.valueOf(currencyEuro));
+
+        Studio studio1= new Studio(id, maxWorkingHours);
+        studio1.setHourlyPrice(BigDecimal.valueOf(pricePerHour));
+        studio1.setHours(workedHours);
+
+        System.out.println(studio1.calculateRevenueLv());
+        System.out.println(studio1.calculateRevenueEuro());
+
+        long id2 = Long.parseLong(bufferedReader.readLine().trim());
+        int maxWorkingHours2 = Integer.parseInt(bufferedReader.readLine().trim());
+        double pricePerHour2 = Double.parseDouble(bufferedReader.readLine().trim());
+        int workedHours2 = Integer.parseInt(bufferedReader.readLine().trim());
+
+        Studio studio2= new Studio(id2, maxWorkingHours2);
+        studio2.setHourlyPrice(BigDecimal.valueOf(pricePerHour2));
+        studio2.setHours(workedHours2);
+
+        System.out.println(studio1.compareTo(studio2));
+        System.out.println(studio1.compareRevenue(studio2));
+
+        bufferedReader.close();
+    }
+}
